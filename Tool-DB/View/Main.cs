@@ -9,7 +9,7 @@ namespace Tool_DB.View
 {
     public partial class Main : Form
     {
-        Connection con;
+        //Connection con;
         SqlConnection sqlConnection;
 
         public string textRowSelect = string.Empty;
@@ -70,12 +70,12 @@ namespace Tool_DB.View
 
             try
             {
-                con = new Connection(connectionString);
-                if (con.IsConnection)
-                {
-                    statusConnection = true;
-                    return true;
-                }
+                //con = new Connection(connectionString);
+                //if (con.IsConnection)
+                //{
+                //    statusConnection = true;
+                //    return true;
+                //}
 
             }
             catch (Exception)
@@ -141,9 +141,9 @@ namespace Tool_DB.View
             int selectedrowindex = dataGridView.SelectedCells[0].RowIndex;
             DataGridViewRow selectedRow = dataGridView.Rows[selectedrowindex];
             textRowSelect = selectedRow.Cells[CONSTANTS.CONST_STRING_COLUMNS_SQL].Value.ToString();
-            InputParam frmInputParam = new InputParam(textRowSelect);
-            frmInputParam.ShowDialog();
-            frmInputParam.Dispose();
+            //InputParam frmInputParam = new InputParam(textRowSelect);
+            //frmInputParam.ShowDialog();
+            //frmInputParam.Dispose();
         }
     }
 }

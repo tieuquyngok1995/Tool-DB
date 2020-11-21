@@ -3,11 +3,12 @@ namespace Tool_DB.View
 {
     partial class Main
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        ///
 
+
+        /// Required designer variable.
+        ///
+        private System.ComponentModel.IContainer components = null;
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
@@ -31,6 +32,7 @@ namespace Tool_DB.View
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,7 +51,7 @@ namespace Tool_DB.View
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolsToolStripMenuItem});
+        this.toolsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(784, 24);
@@ -59,7 +61,7 @@ namespace Tool_DB.View
             // toolsToolStripMenuItem
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.settingToolStripMenuItem});
+        this.settingToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
@@ -69,12 +71,13 @@ namespace Tool_DB.View
             this.settingToolStripMenuItem.Name = "settingToolStripMenuItem";
             this.settingToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
             this.settingToolStripMenuItem.Text = "Setting";
+            this.settingToolStripMenuItem.Click += new System.EventHandler(this.settingToolStripMenuItem_Click);
             // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.txtStatus});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 586);
+        this.txtStatus});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 539);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(784, 22);
             this.statusStrip1.SizingGrip = false;
@@ -92,25 +95,27 @@ namespace Tool_DB.View
             // btnInputSQL
             // 
             this.btnInputSQL.Font = new System.Drawing.Font("MS UI Gothic", 12F);
-            this.btnInputSQL.Location = new System.Drawing.Point(524, 547);
+            this.btnInputSQL.Location = new System.Drawing.Point(524, 505);
             this.btnInputSQL.Name = "btnInputSQL";
-            this.btnInputSQL.Size = new System.Drawing.Size(103, 27);
+            this.btnInputSQL.Size = new System.Drawing.Size(103, 25);
             this.btnInputSQL.TabIndex = 4;
             this.btnInputSQL.Text = "Input SQL";
             this.btnInputSQL.UseVisualStyleBackColor = true;
+            this.btnInputSQL.Click += new System.EventHandler(this.btnInputSQL_Click);
             // 
             // btnInputParam
             // 
             this.btnInputParam.Font = new System.Drawing.Font("MS UI Gothic", 12F);
-            this.btnInputParam.Location = new System.Drawing.Point(637, 547);
+            this.btnInputParam.Location = new System.Drawing.Point(637, 505);
             this.btnInputParam.Name = "btnInputParam";
-            this.btnInputParam.Size = new System.Drawing.Size(135, 27);
+            this.btnInputParam.Size = new System.Drawing.Size(135, 25);
             this.btnInputParam.TabIndex = 5;
             this.btnInputParam.Text = "Input Parameter";
             this.btnInputParam.UseVisualStyleBackColor = true;
-            // 
+            this.btnInputParam.Click += new System.EventHandler(this.btnInputParam_Click);
+            //
             // dataGridView
-            // 
+            //
             this.dataGridView.AllowUserToAddRows = false;
             this.dataGridView.AllowUserToDeleteRows = false;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -123,9 +128,9 @@ namespace Tool_DB.View
             this.dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ID,
-            this.SQL});
-            this.dataGridView.Location = new System.Drawing.Point(14, 30);
+this.ID,
+this.SQL});
+            this.dataGridView.Location = new System.Drawing.Point(14, 28);
             this.dataGridView.MultiSelect = false;
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.ReadOnly = true;
@@ -144,12 +149,12 @@ namespace Tool_DB.View
             this.dataGridView.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView.Size = new System.Drawing.Size(759, 505);
+            this.dataGridView.Size = new System.Drawing.Size(759, 466);
             this.dataGridView.TabIndex = 6;
             this.dataGridView.Visible = false;
-            // 
+            //
             // ID
-            // 
+            //
             this.ID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.ID.DataPropertyName = "ID";
             this.ID.Frozen = true;
@@ -158,9 +163,9 @@ namespace Tool_DB.View
             this.ID.ReadOnly = true;
             this.ID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.ID.Width = 22;
-            // 
+            //
             // SQL
-            // 
+            //
             this.SQL.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.SQL.DataPropertyName = "SQL";
             this.SQL.HeaderText = "SQL";
@@ -168,20 +173,23 @@ namespace Tool_DB.View
             this.SQL.ReadOnly = true;
             this.SQL.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.SQL.Width = 32;
-            // 
+            //
             // Main
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            //
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 608);
+            this.ClientSize = new System.Drawing.Size(784, 561);
             this.Controls.Add(this.dataGridView);
             this.Controls.Add(this.btnInputParam);
             this.Controls.Add(this.btnInputSQL);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Main";
             this.Text = "Tool Compare SQL";
+            this.Load += new System.EventHandler(this.Main_Load);
+            this.Shown += new System.EventHandler(this.Main_Shown);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
