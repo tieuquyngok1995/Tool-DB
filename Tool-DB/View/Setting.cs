@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
-using Tool_DB.Model;
 using Tool_DB.Utils;
 
 namespace Tool_DB.View
 {
     public partial class Setting : Form
     {
-        SqlServerConnection con;
         public SqlConnection sqlConnection;
 
         public Setting()
@@ -57,18 +56,15 @@ namespace Tool_DB.View
         {
             string connectionString = string.Format("Data Source={0};Initial Catalog={1};User ID={2};Password={3};",
                 txtServerName.Text, txtDatabaseName.Text, txtUserName.Text, txtPassword.Text);
+            SqlConnection con = new SqlConnection(connectionString);
+
             try
             {
-                //con = new GetDBConnection(connectionString);
-                //if (con.IsConnection)
-                //{
-                //    MessageBox.Show("Connection database is succeeded.", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                //    if (con != null)
-                //    {
-                //        this.sqlConnection = con.getConnection();
-                //    }
-                //}
+                con.Open();
+                if (con.State == ConnectionState.Open)
+                {
+                    MessageBox.Show("Connection database is succeeded.", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
             catch (Exception ex)
             {

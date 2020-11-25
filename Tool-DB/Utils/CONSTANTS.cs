@@ -49,6 +49,10 @@
         public const string CONST_STRING_CHECK_APOSTROPHE = " '";
         public const string CONST_STRING_CHECK_ADD_END = "ADD END";
         public const string CONST_STRING_CHECK_HYPHEN = "---";
+        public const string CONST_STRING_CHECK_HASH = "#";
+        public const string CONST_STRING_CHECK_REP_START = "REP-START";
+        public const string CONST_STRING_CHECK_REP_END = "REP-END";
+        public const string CONST_STRING_CHECK_APOSTROPHE_VALUE = "'' {0}";
 
         public const string CONST_STRING_CHECK_EMPTY = "\"\"";
         public const string CONST_STRING_CHECK_IF = "If";
@@ -57,6 +61,7 @@
         public const string CONST_STRING_CHECK_END = "End";
         public const string CONST_STRING_CHECK_END_IF = "End If";
         public const string CONST_STRING_CHECK_SELECT_CASE = "Select Case";
+        public const string CONST_STRING_CHECK_END_SELECT = "End Select";
         public const string CONST_STRING_CHECK_CASE = "Case";
         public const string CONST_STRING_CHECK_AND = "&";
         public const string CONST_STRING_CHECK_CLOSEPARENT = ")";
