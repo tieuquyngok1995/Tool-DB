@@ -38,8 +38,6 @@ namespace Tool_DB.View
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.txtStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.lstDataSQL = new System.Windows.Forms.DataGridView();
-            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SQL = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnFormat = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
@@ -50,11 +48,13 @@ namespace Tool_DB.View
             this.btnExcute = new System.Windows.Forms.Button();
             this.btnConvert = new System.Windows.Forms.Button();
             this.lstInputParam = new System.Windows.Forms.DataGridView();
-            this.KEY = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.VALUE = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.txtOuputSQL = new System.Windows.Forms.RichTextBox();
+            this.PARAM = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.VALUE = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SQL = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lstDataSQL)).BeginInit();
@@ -148,27 +148,6 @@ namespace Tool_DB.View
             this.lstDataSQL.TabIndex = 6;
             this.lstDataSQL.Visible = false;
             this.lstDataSQL.SelectionChanged += new System.EventHandler(this.lstDataSQL_SelectionChanged);
-            // 
-            // ID
-            // 
-            this.ID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.ID.DataPropertyName = "ID";
-            this.ID.Frozen = true;
-            this.ID.HeaderText = "ID";
-            this.ID.Name = "ID";
-            this.ID.ReadOnly = true;
-            this.ID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.ID.Width = 170;
-            // 
-            // SQL
-            // 
-            this.SQL.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.SQL.DataPropertyName = "SQL";
-            this.SQL.HeaderText = "SQL";
-            this.SQL.Name = "SQL";
-            this.SQL.ReadOnly = true;
-            this.SQL.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.SQL.Width = 218;
             // 
             // groupBox1
             // 
@@ -267,7 +246,7 @@ namespace Tool_DB.View
             this.lstInputParam.AllowUserToResizeRows = false;
             this.lstInputParam.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.lstInputParam.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.KEY,
+            this.PARAM,
             this.VALUE});
             this.lstInputParam.Location = new System.Drawing.Point(6, 20);
             this.lstInputParam.MultiSelect = false;
@@ -279,27 +258,6 @@ namespace Tool_DB.View
             this.lstInputParam.Size = new System.Drawing.Size(392, 375);
             this.lstInputParam.TabIndex = 15;
             this.lstInputParam.Visible = false;
-            // 
-            // KEY
-            // 
-            this.KEY.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.KEY.DataPropertyName = "KEY";
-            this.KEY.HeaderText = "KEY";
-            this.KEY.MinimumWidth = 100;
-            this.KEY.Name = "KEY";
-            this.KEY.ReadOnly = true;
-            this.KEY.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.KEY.Width = 222;
-            // 
-            // VALUE
-            // 
-            this.VALUE.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.VALUE.DataPropertyName = "VALUE";
-            this.VALUE.HeaderText = "VALUE";
-            this.VALUE.MinimumWidth = 100;
-            this.VALUE.Name = "VALUE";
-            this.VALUE.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.VALUE.Width = 150;
             // 
             // groupBox3
             // 
@@ -328,6 +286,48 @@ namespace Tool_DB.View
             this.txtOuputSQL.Size = new System.Drawing.Size(392, 409);
             this.txtOuputSQL.TabIndex = 8;
             this.txtOuputSQL.Text = "";
+            // 
+            // PARAM
+            // 
+            this.PARAM.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.PARAM.DataPropertyName = "PARAM";
+            this.PARAM.HeaderText = "Parameter";
+            this.PARAM.MinimumWidth = 100;
+            this.PARAM.Name = "PARAM";
+            this.PARAM.ReadOnly = true;
+            this.PARAM.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.PARAM.Width = 222;
+            // 
+            // VALUE
+            // 
+            this.VALUE.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.VALUE.DataPropertyName = "VALUE";
+            this.VALUE.HeaderText = "Value";
+            this.VALUE.MinimumWidth = 100;
+            this.VALUE.Name = "VALUE";
+            this.VALUE.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.VALUE.Width = 150;
+            // 
+            // ID
+            // 
+            this.ID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.ID.DataPropertyName = "ID";
+            this.ID.Frozen = true;
+            this.ID.HeaderText = "SQL Name";
+            this.ID.Name = "ID";
+            this.ID.ReadOnly = true;
+            this.ID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.ID.Width = 170;
+            // 
+            // SQL
+            // 
+            this.SQL.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.SQL.DataPropertyName = "SQL";
+            this.SQL.HeaderText = "SQL";
+            this.SQL.Name = "SQL";
+            this.SQL.ReadOnly = true;
+            this.SQL.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.SQL.Width = 218;
             // 
             // Main
             // 
@@ -388,7 +388,7 @@ namespace Tool_DB.View
         private System.Windows.Forms.RichTextBox txtOuputSQL;
         private System.Windows.Forms.DataGridViewTextBoxColumn ID;
         private System.Windows.Forms.DataGridViewTextBoxColumn SQL;
-        private System.Windows.Forms.DataGridViewTextBoxColumn KEY;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PARAM;
         private System.Windows.Forms.DataGridViewTextBoxColumn VALUE;
     }
 }

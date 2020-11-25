@@ -17,10 +17,12 @@ namespace Tool_DB.View
         SQLConnection con;
         SqlConnection sqlConnection;
 
-        private DataTable data = new DataTable();
+        private DataTable dataSQL = new DataTable();
+        private DataTable dataParam = new DataTable();
+        private DataRow row;
 
         private string strSQLChar = string.Empty;
-        private string input_sql = string.Empty;
+        private string strInputSQL = string.Empty;
 
         private bool statusConnection = false;
         private bool end = false;
@@ -65,8 +67,13 @@ namespace Tool_DB.View
                 : string.Format(CONSTANTS.CONST_STRING_STATUS, CONSTANTS.CONST_STRING_STATUS_DISCONNECT);
 
             // load data input sql
-            data.Columns.Add(CONSTANTS.CONST_STRING_COLUMNS_ID);
-            data.Columns.Add(CONSTANTS.CONST_STRING_COLUMNS_SQL);
+            dataSQL.Columns.Add(CONSTANTS.CONST_STRING_COLUMNS_ID);
+            dataSQL.Columns.Add(CONSTANTS.CONST_STRING_COLUMNS_SQL);
+
+            // load data input param
+            dataParam.Columns.Add(CONSTANTS.CONST_STRING_COLUMNS_PARAM);
+            dataParam.Columns.Add(CONSTANTS.CONST_STRING_COLUMNS_VALUE);
+
             txtSQLChar.Text = ConfigurationManager.AppSettings[CONSTANTS.CONST_STRING_SQL_CHAR];
             btnConvert.Enabled = false;
             btnExcute.Enabled = false;
@@ -135,19 +142,21 @@ namespace Tool_DB.View
 
             if (!string.IsNullOrEmpty(txtInputSQL.Text))
             {
-                data.Clear();
-                data = handleStringInput();
+                dataSQL.Clear();
+                dataParam.Clear();
                 lstDataSQL.Visible = true;
                 lstInputParam.Visible = true;
+                handleStringInput();
             }
             else
             {
-                data.Clear();
+                dataSQL.Clear();
+                dataParam.Clear();
                 lstDataSQL.Visible = false;
                 lstInputParam.Visible = false;
             }
 
-            lstDataSQL.DataSource = data;
+            lstDataSQL.DataSource = dataSQL;
         }
 
         private void btnClear_Click(object sender, EventArgs e)
@@ -159,18 +168,18 @@ namespace Tool_DB.View
             lstDataSQL.Visible = false;
             lstInputParam.Visible = false;
             btnConvert.Enabled = false;
-            data.Clear();
+            dataSQL.Clear();
         }
 
-        private DataTable handleStringInput()
+        private void handleStringInput()
         {
             string resultFormat = handFormatStringInput(txtInputSQL.Text);
             if (numSelectCase == 0)
             {
-                DataRow row = data.NewRow();
+                row = dataSQL.NewRow();
                 row[CONSTANTS.CONST_STRING_COLUMNS_ID] = 1;
                 row[CONSTANTS.CONST_STRING_COLUMNS_SQL] = resultFormat;
-                data.Rows.Add(row);
+                dataSQL.Rows.Add(row);
             }
             else
             {
@@ -179,7 +188,6 @@ namespace Tool_DB.View
             }
 
             numSelectCase = 0;
-            return data;
         }
 
         private string handFormatStringInput(string strInputSQL)
@@ -255,9 +263,8 @@ namespace Tool_DB.View
             return result;
         }
 
-        private DataTable handledSelectCaseString(string strSQL, string strCase)
+        private void handledSelectCaseString(string strSQL, string strCase)
         {
-            DataRow row;
             Dictionary<string, string> listDicCase = new Dictionary<string, string>();
             listDicCase.Add(CONSTANTS.CONST_STRING_COLUMNS_SQL, strSQL); ;
 
@@ -277,10 +284,10 @@ namespace Tool_DB.View
                 {
                     if (!isCaseElse)
                     {
-                        row = data.NewRow();
+                        row = dataSQL.NewRow();
                         row[CONSTANTS.CONST_STRING_COLUMNS_ID] = strCaseName;
                         row[CONSTANTS.CONST_STRING_COLUMNS_SQL] = listDicCase[strCaseName];
-                        data.Rows.Add(row);
+                        dataSQL.Rows.Add(row);
                     }
                     isCaseElse = true;
                     continue;
@@ -289,10 +296,10 @@ namespace Tool_DB.View
                 {
                     if (!string.IsNullOrEmpty(strCaseName))
                     {
-                        row = data.NewRow();
+                        row = dataSQL.NewRow();
                         row[CONSTANTS.CONST_STRING_COLUMNS_ID] = strCaseName;
                         row[CONSTANTS.CONST_STRING_COLUMNS_SQL] = listDicCase[strCaseName];
-                        data.Rows.Add(row);
+                        dataSQL.Rows.Add(row);
                     }
                     strCaseName = strSelectCaseName + CONSTANTS.CONST_STRING_SPACE + item.Trim();
                     listDicCase.Add(strCaseName, strSQL);
@@ -302,7 +309,6 @@ namespace Tool_DB.View
                     listDicCase[strCaseName] = listDicCase[strCaseName] + item.Trim() + CONSTANTS.CONST_CHAR_LINE_BREAK;
                 }
             }
-            return data;
         }
 
         private void lstDataSQL_SelectionChanged(object sender, EventArgs e)
@@ -313,16 +319,75 @@ namespace Tool_DB.View
             {
                 int selectedrowindex = lstDataSQL.SelectedCells[0].RowIndex;
                 DataGridViewRow selectedRow = lstDataSQL.Rows[0];
-                input_sql = selectedRow.Cells[CONSTANTS.CONST_STRING_COLUMNS_SQL].Value.ToString();
-
+                strInputSQL = selectedRow.Cells[CONSTANTS.CONST_STRING_COLUMNS_SQL].Value.ToString();
+                handleInputParam(strInputSQL);
             }
             catch (Exception)
             {
                 DataGridViewRow selectedRow = lstDataSQL.Rows[0];
-                input_sql = selectedRow.Cells[CONSTANTS.CONST_STRING_COLUMNS_SQL].Value.ToString();
-
+                strInputSQL = selectedRow.Cells[CONSTANTS.CONST_STRING_COLUMNS_SQL].Value.ToString();
+                handleInputParam(strInputSQL);
             }
         }
+
+        #endregion
+
+        #region Input Param
+
+        public void handleInputParam(string strSQL)
+        {
+            string[] arrInputSQL = strSQL.Split(CONSTANTS.CONST_CHAR_LINE_BREAK);
+
+            foreach (string item in arrInputSQL)
+            {
+                if (item.Contains(CONSTANTS.CONST_STRING_CHECK_IF) || item.Contains(CONSTANTS.CONST_STRING_CHECK_ELSE))
+                {
+                    if (item.Contains(CONSTANTS.CONST_STRING_CHECK_OPEN_BRACKETS) || item.Contains(CONSTANTS.CONST_STRING_CHECK_CLOSE_BRACKETS))
+                    {
+                        string[] arrItem = item.Split(new string[] { CONSTANTS.CONST_STRING_CHECK_OPEN_BRACKETS,
+                                                                 CONSTANTS.CONST_STRING_CHECK_CLOSE_BRACKETS }, StringSplitOptions.None);
+                    }
+                    else
+                    {
+                        string strItem = item.Replace(CONSTANTS.CONST_STRING_CHECK_IF, string.Empty).
+                                              Replace(CONSTANTS.CONST_STRING_CHECK_ELSE, string.Empty).Trim();
+
+                        string[] arrItem = strItem.Split(new string[] { CONSTANTS.CONST_STRING_AND, CONSTANTS.CONST_STRING_OR }, StringSplitOptions.None);
+                        foreach (string itemParam in arrItem)
+                        {
+                            row = dataParam.NewRow();
+                            row[CONSTANTS.CONST_STRING_COLUMNS_PARAM] = itemParam.Trim().Substring(0, itemParam.IndexOf(CONSTANTS.CONST_CHAR_SPACE));
+                            row[CONSTANTS.CONST_STRING_COLUMNS_VALUE] = string.Empty;
+                            dataParam.Rows.Add(row);
+                        }
+                    }
+
+                }
+                else
+                {
+                    if (string.IsNullOrEmpty(item)) continue;
+
+                    int indexRow = 1;
+                    string[] arrItem = item.Split(new string[] { CONSTANTS.CONST_STRING_CHECK_PARAM_OPEN,
+                                                                 CONSTANTS.CONST_STRING_CHECK_PARAM_CLOSE }, StringSplitOptions.None);
+
+                    while (indexRow < arrItem.Length)
+                    {
+                        if (!string.IsNullOrEmpty(arrItem[indexRow]))
+                        {
+                            row = dataParam.NewRow();
+                            row[CONSTANTS.CONST_STRING_COLUMNS_PARAM] = arrItem[indexRow].Replace(CONSTANTS.CONST_STRING_CHECK_PARAM_CLOSE, string.Empty).Trim();
+                            row[CONSTANTS.CONST_STRING_COLUMNS_VALUE] = string.Empty;
+                            dataParam.Rows.Add(row);
+                        }
+                        indexRow = indexRow + 2;
+                    };
+                }
+            }
+
+            lstInputParam.DataSource = dataParam;
+        }
+
 
         #endregion
     }

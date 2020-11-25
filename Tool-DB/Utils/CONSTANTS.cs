@@ -17,7 +17,7 @@
         public const string CONST_STRING_TAB = "\t";
         public const string CONST_STRING_COLUMNS_ID = "ID";
         public const string CONST_STRING_COLUMNS_SQL = "SQL";
-        public const string CONST_STRING_COLUMNS_KEY = "KEY";
+        public const string CONST_STRING_COLUMNS_PARAM = "PARAM";
         public const string CONST_STRING_COLUMNS_VALUE = "VALUE";
 
         public const string CONST_STRING_IS_SELECT_CASE = " IsSelectCase: ";
@@ -64,10 +64,13 @@
         public const string CONST_STRING_CHECK_END_SELECT = "End Select";
         public const string CONST_STRING_CHECK_CASE = "Case";
         public const string CONST_STRING_CHECK_AND = "&";
-        public const string CONST_STRING_CHECK_CLOSEPARENT = ")";
+        public const string CONST_STRING_CHECK_OPEN_BRACKETS = " (";
+        public const string CONST_STRING_CHECK_CLOSE_BRACKETS = ") ";
         public const string CONST_STRING_CHECK_DIFFERENCE = "<>";
         public const string CONST_STRING_CHECK_SUBSTRING = ".Substring";
         public const string CONST_STRING_CHECK_AS = "AS";
+        public const string CONST_STRING_CHECK_PARAM_OPEN = "\" & ";
+        public const string CONST_STRING_CHECK_PARAM_CLOSE = "& \"";
 
         public const string CONST_STRING_CHECK_CONTAINS_01 = "{0} = \"";
         public const string CONST_STRING_CHECK_CONTAINS_02 = "{0} = {0} & \"";
