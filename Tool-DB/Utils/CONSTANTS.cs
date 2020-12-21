@@ -5,6 +5,9 @@
         #region Char
         public const char CONST_CHAR_LINE_BREAK = '\n';
         public const char CONST_CHAR_SPACE = ' ';
+        public const char CONST_CHAR_QUOTATION = '"';
+        public const char CONST_CHAR_O_BRACKETS = '(';
+        public const char CONST_CHAR_C_BRACKETS = ')';
 
         #endregion
 
@@ -23,7 +26,8 @@
         public const string CONST_STRING_IS_SELECT_CASE = " IsSelectCase: ";
         public const string CONST_STRING_AND = "AND";
         public const string CONST_STRING_OR = "OR";
-        public const string CONST_STRING_LOVER_OR = "Or";
+        public const string CONST_STRING_LOWER_AND = "And";
+        public const string CONST_STRING_LOWER_OR = "Or";
         public const string CONST_STRING_KEY_LIST_DIC = "Key_{0}: ";
         public const string CONST_STRING_FALSE = "False";
         public const string CONST_STRING_TRUE = "True";
@@ -87,17 +91,21 @@
         public const string CONST_STRING_FORMAT_08 = ".";
         public const string CONST_STRING_FORMAT_09 = "='";
         public const string CONST_STRING_FORMAT_10 = "= '";
+        public const string CONST_STRING_FORMAT_11 = "\'\" & ";
+        public const string CONST_STRING_FORMAT_12 = " & \"\'";
 
         public const string CONST_STRING_REPLACE_01 = "{0} =";
         public const string CONST_STRING_REPLACE_02 = "= \"";
         public const string CONST_STRING_REPLACE_03 = "'\" & ";
         public const string CONST_STRING_REPLACE_04 = " & \"";
         public const string CONST_STRING_REPLACE_05 = " ";
+        public const string CONST_STRING_REPLACE_06 = "\'";
+        public const string CONST_STRING_REPLACE_07 = "\'";
         #endregion
 
         #region String Regex
         public const string CONST_REGEX_WORD_CHARACTER = "'[a-zA-Z0-9]";
-        public const string CONST_REGEX_CASE_ELSE_ERROR = "Case Else[a-zA-Z0-9\\s_=]+ERROR";
+        public const string CONST_REGEX_CASE_ELSE_ERROR = @"Case Else[a-zA-Z0-9\s_=]+ERROR";
         public const string CONST_REGEX_KEY_LIST_DIC = "Key_[0-9]+:\\s";
         #endregion
     }

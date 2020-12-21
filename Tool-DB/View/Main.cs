@@ -21,11 +21,14 @@ namespace Tool_DB.View
         private DataTable dataParam = new DataTable();
         private DataRow row;
 
+        private Dictionary<string, List<string>> lstDic= new Dictionary<string, List<string>>();
+        private Dictionary<string, string> lstDicParam = new Dictionary<string, string>();
+        private List<string> lstParam = new List<string>();
+
         private string strSQLChar = string.Empty;
         private string strInputSQL = string.Empty;
 
         private bool statusConnection = false;
-        private bool end = false;
 
         private int numSelectCase = 0;
 
@@ -154,6 +157,7 @@ namespace Tool_DB.View
                 dataParam.Clear();
                 lstDataSQL.Visible = false;
                 lstInputParam.Visible = false;
+                btnConvert.Enabled = false;
             }
 
             lstDataSQL.DataSource = dataSQL;
@@ -311,57 +315,50 @@ namespace Tool_DB.View
             }
         }
 
-        private void lstDataSQL_SelectionChanged(object sender, EventArgs e)
-        {
-            if (lstDataSQL.Rows.Count <= 0) return;
-
-            try
-            {
-                int selectedrowindex = lstDataSQL.SelectedCells[0].RowIndex;
-                DataGridViewRow selectedRow = lstDataSQL.Rows[0];
-                strInputSQL = selectedRow.Cells[CONSTANTS.CONST_STRING_COLUMNS_SQL].Value.ToString();
-                handleInputParam(strInputSQL);
-            }
-            catch (Exception)
-            {
-                DataGridViewRow selectedRow = lstDataSQL.Rows[0];
-                strInputSQL = selectedRow.Cells[CONSTANTS.CONST_STRING_COLUMNS_SQL].Value.ToString();
-                handleInputParam(strInputSQL);
-            }
-        }
-
         #endregion
 
         #region Input Param
+
+        private void lstDataSQL_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (lstDataSQL.SelectedRows.Count > 0)
+            {
+                int selectedrowindex = lstDataSQL.SelectedCells[0].RowIndex;
+                DataGridViewRow selectedRow = lstDataSQL.Rows[selectedrowindex];
+                strInputSQL = Convert.ToString(selectedRow.Cells[CONSTANTS.CONST_STRING_COLUMNS_SQL].Value);
+
+                if (!string.IsNullOrEmpty(strInputSQL))
+                {
+                    dataParam.Clear();
+                    handleInputParam(strInputSQL);
+                    btnConvert.Enabled = true;
+                }
+            }
+        }
 
         public void handleInputParam(string strSQL)
         {
             string[] arrInputSQL = strSQL.Split(CONSTANTS.CONST_CHAR_LINE_BREAK);
 
+            string itemCheck = string.Empty;
+
             foreach (string item in arrInputSQL)
             {
                 if (item.Contains(CONSTANTS.CONST_STRING_CHECK_IF) || item.Contains(CONSTANTS.CONST_STRING_CHECK_ELSE))
                 {
-                    if (item.Contains(CONSTANTS.CONST_STRING_CHECK_OPEN_BRACKETS) || item.Contains(CONSTANTS.CONST_STRING_CHECK_CLOSE_BRACKETS))
-                    {
-                        string[] arrItem = item.Split(new string[] { CONSTANTS.CONST_STRING_CHECK_OPEN_BRACKETS,
-                                                                 CONSTANTS.CONST_STRING_CHECK_CLOSE_BRACKETS }, StringSplitOptions.None);
-                    }
-                    else
-                    {
-                        string strItem = item.Replace(CONSTANTS.CONST_STRING_CHECK_IF, string.Empty).
-                                              Replace(CONSTANTS.CONST_STRING_CHECK_ELSE, string.Empty).Trim();
+                    string strItem = item.Replace(CONSTANTS.CONST_STRING_CHECK_IF, string.Empty).
+                                            Replace(CONSTANTS.CONST_STRING_CHECK_ELSE, string.Empty).Trim();
 
-                        string[] arrItem = strItem.Split(new string[] { CONSTANTS.CONST_STRING_AND, CONSTANTS.CONST_STRING_OR }, StringSplitOptions.None);
-                        foreach (string itemParam in arrItem)
+                    string[] arrItem = strItem.Split(new string[] { CONSTANTS.CONST_STRING_AND, CONSTANTS.CONST_STRING_OR,
+                        CONSTANTS.CONST_STRING_LOWER_AND, CONSTANTS.CONST_STRING_LOWER_OR }, StringSplitOptions.None);
+                    foreach (string itemParam in arrItem)
+                    {
+                        if (string.IsNullOrEmpty(itemParam))
                         {
-                            row = dataParam.NewRow();
-                            row[CONSTANTS.CONST_STRING_COLUMNS_PARAM] = itemParam.Trim().Substring(0, itemParam.IndexOf(CONSTANTS.CONST_CHAR_SPACE));
-                            row[CONSTANTS.CONST_STRING_COLUMNS_VALUE] = string.Empty;
-                            dataParam.Rows.Add(row);
+                            continue;
                         }
+                        handleItemParam(itemParam, lstParam);
                     }
-
                 }
                 else
                 {
@@ -375,20 +372,91 @@ namespace Tool_DB.View
                     {
                         if (!string.IsNullOrEmpty(arrItem[indexRow]))
                         {
-                            row = dataParam.NewRow();
-                            row[CONSTANTS.CONST_STRING_COLUMNS_PARAM] = arrItem[indexRow].Replace(CONSTANTS.CONST_STRING_CHECK_PARAM_CLOSE, string.Empty).Trim();
-                            row[CONSTANTS.CONST_STRING_COLUMNS_VALUE] = string.Empty;
-                            dataParam.Rows.Add(row);
+                            itemCheck = arrItem[indexRow].Replace(CONSTANTS.CONST_STRING_CHECK_PARAM_CLOSE, string.Empty).Trim();
+                            if (lstParam.Count == 0 || !lstParam.Any(itemLst => itemLst.Equals(itemCheck)))
+                            {
+                                lstParam.Add(itemCheck);
+                            }
                         }
-                        indexRow = indexRow + 2;
+                        indexRow += 2;
                     };
                 }
             }
 
+            // Add data to data grid view
+            handleDataToLstInputParam(lstParam);
+        }
+
+        private void handleItemParam(string strItem, List<string> lstParam)
+        {
+            string value = strItem;
+            if (strItem.Trim().StartsWith("("))
+            {
+                value = strItem.Remove(0, 1);
+            }
+
+            if (strItem.Trim().EndsWith(")"))
+            {
+                value = strItem.Remove(strItem.Length - 2);
+            }
+
+            string[] arrItem = value.Trim().Split(CONSTANTS.CONST_CHAR_SPACE);
+
+            if (arrItem.Length < 2)
+            {
+                return;
+            }
+
+            if (lstParam.Count == 0 || !lstParam.Any(itemLst => itemLst.Equals(arrItem[0])))
+            {
+                lstParam.Add(arrItem[0]);
+            }
+
+            if (!arrItem[2].Contains(CONSTANTS.CONST_CHAR_QUOTATION))
+            {
+                if (lstParam.Count == 0 || !lstParam.Any(itemLst => itemLst.Equals(arrItem[2])))
+                {
+                    lstParam.Add(arrItem[2]);
+                }
+            }
+        }
+
+        private void handleDataToLstInputParam(List<string> lstParam)
+        {
+            foreach (string item in lstParam)
+            {
+                row = dataParam.NewRow();
+                row[CONSTANTS.CONST_STRING_COLUMNS_PARAM] = item;
+                row[CONSTANTS.CONST_STRING_COLUMNS_VALUE] = string.Empty;
+                dataParam.Rows.Add(row);
+            }
             lstInputParam.DataSource = dataParam;
         }
 
+        private void btnConvert_Click(object sender, EventArgs e)
+        {
+            string dicValue = string.Empty;
+            lstDicParam.Clear();
+            foreach (DataGridViewRow item in lstInputParam.Rows)
+            {
+                dicValue = string.IsNullOrEmpty(item.Cells[1].Value.ToString())
+                    ? CONSTANTS.CONST_STRING_EMPTY : item.Cells[1].Value.ToString();
+                lstDicParam.Add(item.Cells[0].Value.ToString(), dicValue);
+            }
 
+            foreach (KeyValuePair<string, string> item in lstDicParam)
+            {
+                strInputSQL = strInputSQL.Replace(CONSTANTS.CONST_CHAR_SPACE + item.Key + CONSTANTS.CONST_CHAR_SPACE,
+                                                  CONSTANTS.CONST_CHAR_SPACE + item.Value + CONSTANTS.CONST_CHAR_SPACE);
+                strInputSQL = strInputSQL.Replace(CONSTANTS.CONST_CHAR_O_BRACKETS + item.Key, CONSTANTS.CONST_CHAR_O_BRACKETS + item.Value);
+                strInputSQL = strInputSQL.Replace(item.Key + CONSTANTS.CONST_CHAR_C_BRACKETS, item.Value + CONSTANTS.CONST_CHAR_C_BRACKETS);
+            }
+
+            strInputSQL = strInputSQL.Replace(CONSTANTS.CONST_STRING_FORMAT_11, CONSTANTS.CONST_STRING_REPLACE_06);
+            strInputSQL = strInputSQL.Replace(CONSTANTS.CONST_STRING_FORMAT_12, CONSTANTS.CONST_STRING_REPLACE_07);
+
+
+        }
         #endregion
     }
 }
